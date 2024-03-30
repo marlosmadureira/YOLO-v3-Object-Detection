@@ -15,12 +15,12 @@ COLORS = np.random.randint(0, 255, size=(len(labels), 3), dtype="uint8")
 
 net = cv2.dnn.readNetFromDarknet(modelConfiguration, modelWeights)
 
-image = cv2.imread('images/person.jpg')
+image = cv2.imread('images/dog.jpg')
 (H, W) = image.shape[:2]
 
 #Determine output layer names
 layerName = net.getLayerNames()
-layerName = [layerName[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+layerName = [layerName[i - 1] for i in net.getUnconnectedOutLayers()]
 
 blob = cv2.dnn.blobFromImage(image, 1 / 255.0, (416, 416), swapRB = True, crop = False)
 net.setInput(blob)
@@ -57,6 +57,8 @@ if(len(detectionNMS) > 0):
         cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)
         text = '{}: {:.4f}'.format(labels[classIDs[i]], confidences[i])
         cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+
+        print(text)
 
 cv2.imshow('Image', image)
 cv2.waitKey(0)
