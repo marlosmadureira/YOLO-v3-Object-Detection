@@ -18,7 +18,7 @@ net = cv2.dnn.readNetFromDarknet(modelConfiguration, modelWeights)
 outputLayer = net.getLayerNames()
 outputLayer = [outputLayer[i - 1] for i in net.getUnconnectedOutLayers()]
 
-video = cv2.VideoCapture('chase.mp4')
+video = cv2.VideoCapture('corrida.mp4')
 writer = None
 (W, H) = (None, None)
 
@@ -27,7 +27,7 @@ try:
     total = int(video.get(prop))
     print("[INFO] {} total frames in video".format(total))
 except:
-    printf("Could not determine no. of frames in video")
+    print("Could not determine no. of frames in video")
 
 count = 0
 while True:
