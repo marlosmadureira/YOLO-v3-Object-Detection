@@ -16,7 +16,7 @@ COLORS = np.random.randint(0, 255, size=(len(labels), 3), dtype="uint8")
 net = cv2.dnn.readNetFromDarknet(modelConfiguration, modelWeights)
 
 outputLayer = net.getLayerNames()
-outputLayer = [outputLayer[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+outputLayer = [outputLayer[i - 1] for i in net.getUnconnectedOutLayers()]
 
 video_capture = cv2.VideoCapture(0)
 
@@ -63,8 +63,10 @@ while True:
             text = '{}: {:.4f}'.format(labels[classIDs[i]], confidences[i])
             cv2.putText(frame, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
+            print(f"{text}")
+
     cv2.imshow('Output', frame)
-    if(cv.waitKey(1) & 0xFF == ord('q')):
+    if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
 #Finally when video capture is over, release the video capture and destroyAllWindows
