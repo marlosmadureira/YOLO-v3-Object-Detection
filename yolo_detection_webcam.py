@@ -54,7 +54,7 @@ while True:
 
     #Apply Non Maxima Suppression
     detectionNMS = cv2.dnn.NMSBoxes(boxes, confidences, confidenceThreshold, NMSThreshold)
-    if(len(detectionNMS) > 0):
+    if len(detectionNMS) > 0:
         for i in detectionNMS.flatten():
             (x, y) = (boxes[i][0], boxes[i][1])
             (w, h) = (boxes[i][2], boxes[i][3])
