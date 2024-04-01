@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+from pyBibliotecas import *
 
 confidenceThreshold = 0.5
 NMSThreshold = 0.3
