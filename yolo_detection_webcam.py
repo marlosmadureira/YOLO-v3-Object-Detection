@@ -64,7 +64,7 @@ while True:
             text = '{}: {:.4f}'.format(labels[classIDs[i]], confidences[i])
             cv2.putText(frame, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-            print(f"{text}")
+            print(f"{text} {fala_resposta(text)}")
 
     cv2.imshow('Output', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
