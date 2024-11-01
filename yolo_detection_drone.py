@@ -6,8 +6,8 @@ import pytesseract
 # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 # Carregar o modelo YOLOv3
-model_cfg = 'cfg/yolov3.cfg'
-model_weights = 'model/yolov3.weights'
+model_cfg = '/home/madureira/PycharmProjects/YOLO-v3-Object-Detection/cfg/yolov3.cfg'
+model_weights = '/home/madureira/PycharmProjects/YOLO-v3-Object-Detection/model/yolov3.weights'
 net = cv2.dnn.readNetFromDarknet(model_cfg, model_weights)
 net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
 net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
@@ -26,10 +26,18 @@ if not cap.isOpened():
     exit()
 
 
-# Função para obter a saída da rede YOLO
+# Função para obter a saída da rede YOLO com tratamento de índice
 def get_outputs_names(net):
     layers_names = net.getLayerNames()
-    return [layers_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+    unconnected_out_layers = net.getUnconnectedOutLayers()
+
+    # Corrigir o formato dependendo da versão do OpenCV
+    if isinstance(unconnected_out_layers[0], np.ndarray):
+        # Se for uma lista de listas
+        return [layers_names[i[0] - 1] for i in unconnected_out_layers]
+    else:
+        # Se for uma lista de números
+        return [layers_names[i - 1] for i in unconnected_out_layers]
 
 
 # Loop para processar cada frame do stream RTMP
@@ -58,7 +66,7 @@ while True:
             class_id = np.argmax(scores)
             confidence = scores[class_id]
             # Filtrar para detectar somente as placas ou veículos com confiança acima de 0.5
-            if confidence > 0.5 and classes[class_id] in ['car', 'vehicle']:  # Ajuste a classe conforme necessário
+            if confidence > 0.5 and classes[class_id] in ['car', 'vehicle', 'person']:  # Ajuste a classe conforme necessário
                 center_x = int(detection[0] * frame_width)
                 center_y = int(detection[1] * frame_height)
                 width = int(detection[2] * frame_width)
