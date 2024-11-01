@@ -5,7 +5,7 @@ confidenceThreshold = 0.5
 NMSThreshold = 0.3
 
 modelConfiguration = 'cfg/yolov3.cfg'
-modelWeights = 'yolov3.weights'
+modelWeights = 'model/yolov3.weights'
 
 labelsPath = 'coco.names'
 labels = open(labelsPath).read().strip().split('\n')
